@@ -1,0 +1,30 @@
+aagmdeployment:
+  NOSTROMO_DB_HOST: aagmdb
+  NOSTROMO_DB_NAME: aagm
+  NOSTROMO_DB_PASSWORD: ag72iUphcpE9K9hY
+  NOSTROMO_DB_USER: aagm_user
+  
+  image: "apiida/aagm"
+  tag: latest
+  containerPort: 8080
+  containerPortSSL: 10443
+
+aagmdeploymentdb:
+  MYSQL_DATABASE: aagm
+  MYSQL_PASSWORD: ag72iUphcpE9K9hY
+  MYSQL_ROOT_PASSWORD: 327KHJ4aHPRnqW9c
+  MYSQL_USER: aagm_user
+
+  image: mariadb
+  tag: 10.4
+  dbName: aagmdb
+  dbPort: 3306
+
+aagmservice:
+  portName: 80
+  portPort: 80
+  portTargetPort: 8080
+
+  portNameSSL: 443
+  portPortSSL: 443
+  portTargetPortSSL: 10443

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+#  kubernetes.io/ingress.class: alb
+  creationTimestamp: null
+  labels:
+    io.apiida_aagm.service: aagm
+  name: aagm
+spec:
+  ports:
+    - name: "{{ .Values.aagmservice.portName }}"
+      port: {{ .Values.aagmservice.portPort }}
+      targetPort: {{ .Values.aagmservice.portTargetPort }}
+    - name: "{{ .Values.aagmservice.portNameSSL }}"
+      port: {{ .Values.aagmservice.portPortSSL }}
+      targetPort: {{ .Values.aagmservice.portTargetPortSSL }}
+  selector:
+    io.apiida_aagm.service: aagm
+  type: LoadBalancer
+status:
+  loadBalancer: {}

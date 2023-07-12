@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    io.apiida_aagm.service: aagmdb
+  name: aagmdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.apiida_aagm.service: aagmdb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      creationTimestamp: null
+      labels:
+        io.apiida_aagm.service: aagmdb
+    spec:
+      containers:
+        - env:
+            - name: MYSQL_DATABASE
+              value: {{ .Values.aagmdeploymentdb.MYSQL_DATABASE }}
+            - name: MYSQL_PASSWORD
+              value: {{ .Values.aagmdeploymentdb.MYSQL_PASSWORD }}
+            - name: MYSQL_ROOT_PASSWORD
+              value: {{ .Values.aagmdeploymentdb.MYSQL_ROOT_PASSWORD }}
+            - name: MYSQL_USER
+              value: {{ .Values.aagmdeploymentdb.MYSQL_USER }}
+          image: {{ .Values.aagmdeploymentdb.image }}:{{ .Values.aagmdeploymentdb.tag }}
+          name: {{ .Values.aagmdeploymentdb.dbName }}
+          ports:
+            - containerPort: {{ .Values.aagmdeploymentdb.dbPort }}
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: aagmdb-vol
+      restartPolicy: Always
+      volumes:
+        - name: aagmdb-vol
+          persistentVolumeClaim:
+            claimName: aagmdb-vol
+status: {}

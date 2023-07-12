@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    io.apiida_aagm.service: aagm
+  name: aagm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.apiida_aagm.service: aagm
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      creationTimestamp: null
+      labels:
+        io.apiida_aagm.service: aagm
+    spec:
+      containers:
+        - env:
+            - name: NOSTROMO_DB_HOST
+              value: {{ .Values.aagmdeployment.NOSTROMO_DB_HOST }}
+            - name: NOSTROMO_DB_NAME
+              value:  {{ .Values.aagmdeployment.NOSTROMO_DB_NAME }}
+            - name: NOSTROMO_DB_PASSWORD
+              value:  {{ .Values.aagmdeployment.NOSTROMO_DB_PASSWORD }}
+            - name: NOSTROMO_DB_USER
+              value:  {{ .Values.aagmdeployment.NOSTROMO_DB_USER }}
+          image: {{ .Values.aagmdeployment.image }}:{{ .Values.aagmdeployment.tag }}
+          name: aagm
+          ports:
+            - containerPort:  {{ .Values.aagmdeployment.containerPort }}
+            - containerPort:  {{ .Values.aagmdeployment.containerPortSSL }}
+          resources: {}
+          volumeMounts:
+            - mountPath: /opt/aagm
+              name: aagm-claim0
+              readOnly: false
+      securityContext:
+        runAsGroup: 101
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: dockerconfigjson-github-com
+      volumes:
+        - name: aagm-claim0
+          persistentVolumeClaim:
+            claimName: aagm-claim0
+status: {}

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    io.apiida_aagm.service: prometheus
+  name: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.apiida_aagm.service: prometheus
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      creationTimestamp: null
+      labels:
+        io.apiida_aagm.service: prometheus
+    spec:
+      containers:
+        - args:
+            - --web.enable-admin-api
+            - --config.file=/etc/prometheus/prometheus.yml
+          image: apiida/aagm-prometheus
+          name: prometheus
+          ports:
+            - containerPort: 9090
+          resources: {}
+          volumeMounts:
+            - mountPath: /prometheus
+              name: aagm-prometheus-vol
+              readOnly: false
+      restartPolicy: Always
+      volumes:
+        - name: aagm-prometheus-vol
+          persistentVolumeClaim:
+            claimName: aagm-prometheus-vol
+status: {}
