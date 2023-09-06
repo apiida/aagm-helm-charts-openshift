@@ -1,6 +1,6 @@
 name: aagm
-description: A generated Helm Chart for aagm from Skippbox Kompose
-version: 0.0.1
+description: Helm Chart for aagm - Vince Baker - APIIDA
+version: 1.0.0
 apiVersion: v1
 keywords:
   - aagm

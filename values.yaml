@@ -9,6 +9,12 @@ aagmdeployment:
   containerPort: 8080
   containerPortSSL: 10443
 
+  resources:
+    limits:
+      memory: 2Gi
+    requests:
+      memory: 1Gi
+
 aagmdeploymentdb:
   MYSQL_DATABASE: aagm
   MYSQL_PASSWORD: ag72iUphcpE9K9hY
@@ -28,3 +34,4 @@ aagmservice:
   portNameSSL: 443
   portPortSSL: 443
   portTargetPortSSL: 10443
+  type: ClusterIP

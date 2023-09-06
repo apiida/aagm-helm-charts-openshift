@@ -17,6 +17,4 @@ spec:
       targetPort: {{ .Values.aagmservice.portTargetPortSSL }}
   selector:
     io.apiida_aagm.service: aagm
-  type: LoadBalancer
-status:
-  loadBalancer: {}
+  type: {{ .Values.aagmservice.type }}

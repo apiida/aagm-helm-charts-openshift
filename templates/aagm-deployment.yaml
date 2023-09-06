@@ -35,7 +35,11 @@ spec:
           ports:
             - containerPort:  {{ .Values.aagmdeployment.containerPort }}
             - containerPort:  {{ .Values.aagmdeployment.containerPortSSL }}
-          resources: {}
+          resources: 
+            limits:
+              memory: {{ .Values.aagmdeployment.resources.limits.memory }}
+            requests:
+              memory: {{ .Values.aagmdeployment.resources.requests.memory }}
           volumeMounts:
             - mountPath: /opt/aagm
               name: aagm-claim0
