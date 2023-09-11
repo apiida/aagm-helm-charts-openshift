@@ -47,8 +47,6 @@ spec:
       securityContext:
         runAsGroup: 101
       restartPolicy: Always
-      imagePullSecrets:
-      - name: dockerconfigjson-github-com
       volumes:
         - name: aagm-claim0
           persistentVolumeClaim:
